@@ -1,7 +1,16 @@
 package hw3
 
 object Main {
-  def standardDeviation(vector: List[Double]): Double = ???
+  def standardDeviation(vector: List[Double]): Double = {
+    if(vector == null || vector.isEmpty)
+      throw new IllegalArgumentException("Cannot count deviation")
+
+    import Math._
+    val size: Double = vector.size.toDouble
+    val mean: Double = vector.sum / size
+    val variance = vector.map(x => pow(x-mean, 2)).sum / size
+    sqrt(variance)
+  }
 
   def letterFrequencyRanking(corpus: String): String = ???
 

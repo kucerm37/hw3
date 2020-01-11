@@ -23,4 +23,11 @@ class StandardDeviationTest extends FunSuite with Matchers {
      */
     standardDeviation(List(42)) shouldBe 0.0
   }
+  test("passing null example") {
+    assertThrows[IllegalArgumentException](standardDeviation(null))
+  }
+
+  test("passing empty vector example") {
+    assertThrows[IllegalArgumentException](standardDeviation(List.empty))
+  }
 }
