@@ -12,9 +12,56 @@ object Main {
     sqrt(variance)
   }
 
-  def letterFrequencyRanking(corpus: String): String = ???
+  def letterFrequencyRanking(corpus: String): String = {
+    if(corpus == null)
+      throw new IllegalArgumentException("cannot do the ranking for non-existing string")
+    if(corpus.isEmpty)
+      return corpus
 
-  def romanji(katakana: String): String = ???
+    def makeString(map: Map[Char, Int]): String = ???
+
+    val symbols = corpus.toList
+    def loop(list: List[Char], map: Map[Char, Int]): String = ???
+//    {
+//      if(list.isEmpty) makeString(map)
+//      else if(list.head.isLetter) {
+//        loop(list.tail, )
+//      } else {
+//        loop(list.tail, map)
+//      }
+//    }
+    "not implemented"
+  }
+
+  def romanji(katakana: String): String = {
+    if(katakana == null)
+      throw new IllegalArgumentException("cannot convert non-existing string")
+
+    def loop(acc: String, list: List[Char]): String = {
+      if(list.isEmpty) return acc
+      if(list.head == 'ー') {
+          val toChange = acc.last
+          val newVal = Katakana.longVowels(toChange)
+          loop(acc.take(acc.length-1) + newVal, list.tail)
+      }
+      else if(list.head == 'ッ'){
+        val rest = loop("", list.tail)
+        acc + rest.head + rest
+      }
+      else {
+        val toAdd = Katakana.symbols(list.head).foldLeft("")((acc, x) => acc + x)
+        loop(acc + toAdd, list.tail)
+      }
+    }
+
+    val symbols = katakana.toList
+    if(!symbols.forall(x => {
+      Katakana.symbols.get(x).isDefined || Katakana.longVowels.get(x).isDefined || x == 'ッ' || x == 'ー'
+    }))
+      throw new IllegalArgumentException("invalid string, cannot resolve all symbols")
+
+    loop("", symbols)
+  }
 
   def gray(bits: Int): List[String] = ???
 }
