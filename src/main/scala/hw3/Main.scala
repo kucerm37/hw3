@@ -63,7 +63,22 @@ object Main {
     loop("", symbols)
   }
 
-  def gray(bits: Int): List[String] = ???
+  def gray(bits: Int): List[String] = {
+    @scala.annotation.tailrec
+    def loop(acc: List[String], n: Int): List[String] = {
+      if(n == 0) acc
+      else {
+        val reversed = acc.reverse
+        val first: List[String] = acc.map(x => "0" + x)
+        val second: List[String] = reversed.map(x => "1" + x)
+        loop( first ::: second, n-1)
+      }
+    }
+
+    if(bits < 1)
+      throw new IllegalArgumentException(s"Cannot make gray code of $bits.")
+    loop(List("0","1"), bits-1)
+  }
 }
 
 object Katakana {
