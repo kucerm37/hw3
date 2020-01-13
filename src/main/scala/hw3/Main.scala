@@ -18,19 +18,29 @@ object Main {
     if(corpus.isEmpty)
       return corpus
 
-    def makeString(map: Map[Char, Int]): String = ???
+    //only letters
+    val letters = corpus.filter(x => x.isLetter).map(x => x.toLower).toList
 
-    val symbols = corpus.toList
-    def loop(list: List[Char], map: Map[Char, Int]): String = ???
-//    {
-//      if(list.isEmpty) makeString(map)
-//      else if(list.head.isLetter) {
-//        loop(list.tail, )
-//      } else {
-//        loop(list.tail, map)
-//      }
-//    }
-    "not implemented"
+    if(letters.isEmpty)
+      return ""
+
+    //sort alphabetically
+    val sorted = letters.sortWith((x,y) => x.toInt < y.toInt)
+
+    //returns letters with frequencies
+    @scala.annotation.tailrec
+    def loop(acc:List[(Char, Int)], rest: List[Char], count: Int, current: Char): List[(Char, Int)] = {
+      if(rest.isEmpty) (current, count) :: acc
+      else if (rest.head == current) loop(acc, rest.tail, count+1, current)
+      else loop((current, count) :: acc, rest.tail, 1, rest.head)
+    }
+
+    val counts = loop(List[(Char, Int)](), sorted.tail, 1, sorted.head).reverse
+
+    //sorted by frequencies
+    val sortedByCounts = counts.sortWith((x,y) => x._2 > y._2)
+
+    sortedByCounts.foldLeft("")((acc,x) => acc + x._1)
   }
 
   def romanji(katakana: String): String = {
