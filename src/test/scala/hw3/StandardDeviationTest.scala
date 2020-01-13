@@ -30,4 +30,20 @@ class StandardDeviationTest extends FunSuite with Matchers {
   test("passing empty vector example") {
     assertThrows[IllegalArgumentException](standardDeviation(List.empty))
   }
+
+  test("{1, 2, -2, 4, -3}") {
+    standardDeviation(List(1, 2, -2, 4, -3)) shouldBe 2.5768 +- 0.01
+  }
+
+  test("{3,5,1,8,9,-2,4,0,-10}") {
+    standardDeviation(List(3,5,1,8,9,-2,4,0,-10)) shouldBe 5.4160 +- 0.01
+  }
+
+  test("empty list should throw an exception") {
+    assertThrows[IllegalArgumentException](standardDeviation(List()))
+  }
+
+  test("null should throw an exception") {
+    assertThrows[IllegalArgumentException](standardDeviation(null))
+  }
 }

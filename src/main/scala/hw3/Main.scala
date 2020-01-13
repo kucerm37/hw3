@@ -78,7 +78,7 @@ object Main {
 
     loop("", katakana.toList)
   }
-  
+
   def gray(bits: Int): List[String] = {
     @scala.annotation.tailrec
     def loop(acc: List[String], n: Int): List[String] = {
