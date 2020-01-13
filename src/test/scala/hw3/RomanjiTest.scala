@@ -25,4 +25,13 @@ class RomanjiTest extends FunSuite with Matchers {
   test("bioop") {
     romanji("ビウープ") shouldBe "biūpu"
   }
+
+  test("examples") {
+    romanji("サカ") shouldBe "saka"
+    romanji("サッカ") shouldBe "sakka"
+    romanji("ナノ") shouldBe "nano"
+    romanji("ナンノ") shouldBe "nanno"
+    romanji("メル") shouldBe "meru"
+    romanji("メール") shouldBe "mēru"
+  }
 }
