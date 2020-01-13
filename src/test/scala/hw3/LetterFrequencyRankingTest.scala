@@ -7,6 +7,7 @@ class LetterFrequencyRankingTest extends FunSuite with Matchers {
   test("Simple")          { letterFrequencyRanking("hello") shouldBe "leho" }
   test("Capital letters") { letterFrequencyRanking("AaaAaaAaa") shouldBe "a" }
   test("Punctuation")     { letterFrequencyRanking("Sic!") shouldBe "cis" }
+  test("Example sentence")     { letterFrequencyRanking("Sic semper tyranis.") shouldBe "seiracmnpty" }
 
   test("empty text returns empty string") {
     letterFrequencyRanking("") shouldBe ""
