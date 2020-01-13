@@ -68,10 +68,9 @@ object Main {
     def loop(acc: List[String], n: Int): List[String] = {
       if(n == 0) acc
       else {
-        val reversed = acc.reverse
         val first: List[String] = acc.map(x => "0" + x)
-        val second: List[String] = reversed.map(x => "1" + x)
-        loop( first ::: second, n-1)
+        val second: List[String] = acc.reverse.map(x => "1" + x)
+        loop( first concat second, n-1)
       }
     }
 
