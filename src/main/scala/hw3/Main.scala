@@ -47,6 +47,42 @@ object Main {
     if(katakana == null)
       throw new IllegalArgumentException("cannot convert non-existing string")
 
+    def add(adding: List[Char]): String = adding.foldLeft("")((acc,x) => acc + x)
+
+    def loop(acc: String, rest: List[Char]): String = {
+      if(rest.isEmpty) return acc
+      rest.head match {
+        case 'ー' if Katakana.longVowels.get(acc.last).isDefined =>
+          val last = acc.last
+          loop( acc.take(acc.length-1) + Katakana.longVowels(last), rest.tail)
+        case 'ン' =>
+          val restString = loop("", rest.tail)
+          if(restString.startsWith("na") || restString.startsWith("ni") || restString.startsWith("nu") || restString.startsWith("ne") || restString.startsWith("no")) {
+            acc + "n" + restString
+          } else {
+            acc + restString
+          }
+        case symbol if(List('ャ', 'ュ', 'ョ').contains(symbol) && acc.last == 'i' && Katakana.vowels.get(acc.charAt(acc.length-2)).isEmpty) =>
+          loop(acc.take(acc.length-1) + add(Katakana.symbols(symbol)), rest.tail)
+        case 'ッ' =>
+          val restString = loop("", rest.tail)
+          if(Katakana.vowels.get(restString.head).isEmpty)
+            acc + restString.head + restString
+          else
+            acc + restString
+        case symbol if Katakana.symbols.get(symbol).isDefined =>
+          loop(acc + add(Katakana.symbols(symbol)), rest.tail)
+        case _ => throw new IllegalArgumentException(s"cannot convert ${katakana} to Romanji")
+      }
+    }
+
+    loop("", katakana.toList)
+  }
+
+  def romanji2(katakana: String): String = {
+    if(katakana == null)
+      throw new IllegalArgumentException("cannot convert non-existing string")
+
     def loop(acc: String, list: List[Char]): String = {
       if(list.isEmpty) return acc
       if(list.head == 'ー') {
@@ -115,5 +151,9 @@ object Katakana {
     'e' -> 'ē',
     'u' -> 'ū',
     'o' -> 'ō'
+  )
+
+  val vowels = Map(
+    'ア' -> List('a'), 'イ' -> List('i'),  'ウ' -> List('u'), 'エ' -> List('e'), 'オ' -> List('o')
   )
 }
